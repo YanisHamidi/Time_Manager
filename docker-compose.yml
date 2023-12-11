@@ -1,0 +1,50 @@
+version: '3.6'
+services:
+  db:
+    environment:
+      PGDATA: /var/lib/postgresql/data/pgdata
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_HOST_AUTH_METHOD: trust
+    image: 'postgres:11-alpine'
+    restart: always
+    volumes:
+      - 'pgdata:/var/lib/postgresql/data'
+  api:
+    build: ./manager_api
+    depends_on:
+      - db
+    environment:
+      DATABASE_URL: "${DATABASE_URL}"
+
+    ports:
+      - '4000:4000'
+    volumes:
+      - ./manager_api:/app
+
+  pgadmin:
+    image: dpage/pgadmin4
+    restart: always
+    ports:
+      - "5050:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "${PGADMIN_DEFAULT_EMAIL}"
+      PGADMIN_DEFAULT_PASSWORD: "${PGADMIN_DEFAULT_PASSWORD}"
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+    depends_on:
+      - db
+
+  frontend:
+    build: ./timeManager-vue
+    volumes:
+      - ./timeManager-vue:/app
+      -  /app/node_modules
+    env_file:
+      - ./timeManager-vue/.env
+    ports:
+      - '8080:8080'
+
+volumes:
+  pgdata:
+  pgadmin_data:
