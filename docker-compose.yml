@@ -16,7 +16,7 @@ services:
       - db
     environment:
       DATABASE_URL: "${DATABASE_URL}"
-
+ 
     ports:
       - '4000:4000'
     volumes:
