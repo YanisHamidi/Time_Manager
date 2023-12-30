@@ -4,7 +4,7 @@
 
 This project is a full-stack web application developed with Vue.js for the front-end and Elixir Phoenix for the back-end, containerized with Docker to facilitate deployment and management.
 
-## Prerequisites
+## Prerequisites 
 
 - [Docker](https://www.docker.com/get-started)
 - [Docker Compose](https://docs.docker.com/compose/install/)
